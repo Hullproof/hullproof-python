@@ -1,6 +1,6 @@
 # hullproof — Python client for the Hullproof API
 
-`pip install hullproof` *(once published — currently lives in `clients/python/` of the dashboard repo)*
+`pip install hullproof` *(install path live once published to PyPI; in the meantime use `pip install git+https://github.com/Hullproof/hullproof-python`)*
 
 Python client for the Hullproof asset-condition intelligence platform. Wraps the public HTTP API: CoatingPassport retrieval, ISO 19030 hull performance evaluation, exports to Cognite Data Fusion, OSDU, and DNV Veracity, and the MCP tool surface.
 
