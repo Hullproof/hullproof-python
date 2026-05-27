@@ -125,6 +125,8 @@ def test_client_methods_exist() -> None:
     assert callable(client.diff_passports)
     assert callable(client.export_passport_to_cdf)
     assert callable(client.export_passport_to_osdu)
+    assert callable(client.download_iso19030_evidence_pdf)
+    assert callable(client.get_fleet_summary)
     assert callable(client.compute_iso19030_performance_value)
     client.close()
 
@@ -132,6 +134,8 @@ def test_client_methods_exist() -> None:
 def test_async_client_methods_exist() -> None:
     client = AsyncClient()
     assert callable(client.list_tools)
+    assert callable(client.download_iso19030_evidence_pdf)
+    assert callable(client.get_fleet_summary)
     assert callable(client.compute_iso19030_performance_value)
 
 

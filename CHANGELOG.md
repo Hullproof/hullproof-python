@@ -4,6 +4,13 @@ All notable changes to the `hullproof` Python client are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] — 2026-05-27
+
+### Added
+- `Client.download_iso19030_evidence_pdf(passport_id, draft=False)` — returns raw PDF bytes. Tribunal-grade evidence report for charter-party disputes, P&I claims, EU MRV verifier challenges. Raises `HullproofError(409)` if the passport has no `PerformanceValue`.
+- `Client.get_fleet_summary(passport_ids=None, asset_type=None)` — aggregates a fleet of CoatingPassports into per-severity / per-category / PV-distribution counts plus a sorted high-severity findings list. Without arguments, runs against the public demo fixtures (zero-setup).
+- Same two methods mirrored on `AsyncClient`.
+
 ## [0.1.0] — 2026-05-27
 
 Initial public release.

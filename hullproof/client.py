@@ -146,6 +146,51 @@ class Client:
         _raise_for_response(response)
         return response.json()
 
+    def download_iso19030_evidence_pdf(
+        self,
+        passport_id: str,
+        *,
+        draft: bool = False,
+    ) -> bytes:
+        """Download the tribunal-grade ISO 19030 evidence PDF as raw bytes.
+
+        Returns the PDF body. Raises HullproofError(409) if the passport
+        has no PerformanceValue attached.
+        """
+        params: dict[str, str] = {}
+        if draft:
+            params["draft"] = "1"
+        response = self._client.get(
+            f"/api/passports/{passport_id}/iso19030-evidence-pdf",
+            params=params,
+        )
+        _raise_for_response(response)
+        return response.content
+
+    # ── Fleet ──
+
+    def get_fleet_summary(
+        self,
+        *,
+        passport_ids: list[str] | None = None,
+        asset_type: str | None = None,
+    ) -> dict[str, Any]:
+        """Aggregate a fleet of CoatingPassports into a single summary.
+
+        Without arguments, uses the public demo fixtures (zero-setup demo).
+        Pass `passport_ids` to aggregate a specific list; pass `asset_type`
+        to filter to one vertical (vessel_hull, offshore_platform_jacket,
+        wind_monopile, etc.).
+        """
+        params: dict[str, str] = {}
+        if passport_ids:
+            params["passport_ids"] = ",".join(passport_ids)
+        if asset_type:
+            params["asset_type"] = asset_type
+        response = self._client.get("/api/v1/fleet/summary", params=params)
+        _raise_for_response(response)
+        return response.json()
+
     # ── ISO 19030 ──
 
     def compute_iso19030_performance_value(
@@ -241,6 +286,37 @@ class AsyncClient:
 
     async def export_passport_to_osdu(self, passport_id: str) -> dict[str, Any]:
         response = await self._client.get(f"/api/passports/{passport_id}/osdu")
+        _raise_for_response(response)
+        return response.json()
+
+    async def download_iso19030_evidence_pdf(
+        self,
+        passport_id: str,
+        *,
+        draft: bool = False,
+    ) -> bytes:
+        params: dict[str, str] = {}
+        if draft:
+            params["draft"] = "1"
+        response = await self._client.get(
+            f"/api/passports/{passport_id}/iso19030-evidence-pdf",
+            params=params,
+        )
+        _raise_for_response(response)
+        return response.content
+
+    async def get_fleet_summary(
+        self,
+        *,
+        passport_ids: list[str] | None = None,
+        asset_type: str | None = None,
+    ) -> dict[str, Any]:
+        params: dict[str, str] = {}
+        if passport_ids:
+            params["passport_ids"] = ",".join(passport_ids)
+        if asset_type:
+            params["asset_type"] = asset_type
+        response = await self._client.get("/api/v1/fleet/summary", params=params)
         _raise_for_response(response)
         return response.json()
 
